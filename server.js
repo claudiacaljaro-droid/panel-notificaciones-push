@@ -1,23 +1,32 @@
 const express = require('express');
 const admin = require('firebase-admin');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 app.use(express.json());
 app.use(express.static(__dirname));
 
-// Leer credenciales desde Render (Environment Variable) o desde el archivo local
-let serviceAccount;
+// Cargar credenciales desde Variable de Entorno (Render) o archivo local
+let serviceAccount = null;
 
 if (process.env.FIREBASE_CREDENTIALS) {
-    serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
-} else {
+    try {
+        serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
+    } catch (e) {
+        console.error('Error al parsear FIREBASE_CREDENTIALS:', e);
+    }
+} else if (fs.existsSync(path.join(__dirname, 'serviceAccountKey.json'))) {
     serviceAccount = require('./serviceAccountKey.json');
 }
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-});
+if (!serviceAccount) {
+    console.error('ERROR CRÍTICO: No se encontraron credenciales válidas de Firebase.');
+} else {
+    admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount)
+    });
+}
 
 // Endpoint de envío de notificaciones
 app.post('/send-notification', async (req, res) => {
