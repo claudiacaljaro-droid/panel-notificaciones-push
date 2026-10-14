@@ -12,7 +12,9 @@ let serviceAccount = null;
 
 if (process.env.FIREBASE_CREDENTIALS) {
     try {
-        serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
+        serviceAccount = typeof process.env.FIREBASE_CREDENTIALS === 'string' 
+            ? JSON.parse(process.env.FIREBASE_CREDENTIALS) 
+            : process.env.FIREBASE_CREDENTIALS;
     } catch (e) {
         console.error('Error al parsear FIREBASE_CREDENTIALS:', e);
     }
@@ -23,9 +25,9 @@ if (process.env.FIREBASE_CREDENTIALS) {
 if (!serviceAccount) {
     console.error('ERROR CRÍTICO: No se encontraron credenciales válidas de Firebase.');
 } else {
-    // Inicialización compatible con todas las versiones de firebase-admin
+    // Inicialización estándar oficial de Firebase Admin SDK
     admin.initializeApp({
-        credential: admin.credential ? admin.credential.cert(serviceAccount) : admin.credentialCert(serviceAccount)
+        credential: admin.credential.cert(serviceAccount)
     });
 }
 
