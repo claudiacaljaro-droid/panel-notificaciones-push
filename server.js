@@ -23,8 +23,9 @@ if (process.env.FIREBASE_CREDENTIALS) {
 if (!serviceAccount) {
     console.error('ERROR CRÍTICO: No se encontraron credenciales válidas de Firebase.');
 } else {
+    // Inicialización compatible con todas las versiones de firebase-admin
     admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount)
+        credential: admin.credential ? admin.credential.cert(serviceAccount) : admin.credentialCert(serviceAccount)
     });
 }
 
