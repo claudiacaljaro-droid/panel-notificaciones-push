@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Push Panel · Neo-Brutalist Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --yellow: #FFE14D;
+        --pink:   #FF6FB5;
+        --cyan:   #57D9E8;
+        --lime:   #B8F34A;
+        --purple: #A78BFA;
+        --black:  #111111;
+        --white:  #FFFDF5;
+        --red:    #FF5252;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html, body {
+        min-height: 100vh;
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        background: var(--yellow);
+        color: var(--black);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        background-image:
+            repeating-linear-gradient(45deg, rgba(0,0,0,0.06) 0 2px, transparent 2px 22px),
+            repeating-linear-gradient(-45deg, rgba(0,0,0,0.06) 0 2px, transparent 2px 22px);
+    }
+
+    .card {
+        width: 100%;
+        max-width: 560px;
+        background: var(--white);
+        border: 4px solid var(--black);
+        border-radius: 4px;
+        box-shadow: 12px 12px 0 var(--black);
+        padding: 36px 32px 28px;
+        position: relative;
+        animation: pop 0.35s cubic-bezier(0.2, 1.4, 0.5, 1);
+    }
+
+    @keyframes pop {
+        0%   { transform: scale(0.92) rotate(-1.5deg); opacity: 0; }
+        100% { transform: scale(1) rotate(0); opacity: 1; }
+    }
+
+    /* Cinta de "sticker" */
+    .card::before {
+        content: 'PUSH IT';
+        position: absolute;
+        top: -18px;
+        right: 24px;
+        background: var(--pink);
+        border: 3px solid var(--black);
+        padding: 4px 12px;
+        font-family: 'Archivo Black', sans-serif;
+        font-size: 0.75rem;
+        letter-spacing: 0.15em;
+        transform: rotate(4deg);
+        box-shadow: 3px 3px 0 var(--black);
+    }
+
+    /* ======= HEADER ======= */
+    .header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding-bottom: 20px;
+        margin-bottom: 26px;
+        border-bottom: 3px dashed var(--black);
+    }
+
+    .logo {
+        width: 56px;
+        height: 56px;
+        background: var(--cyan);
+        border: 3px solid var(--black);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 4px 4px 0 var(--black);
+        flex-shrink: 0;
+    }
+
+    .logo svg { width: 30px; height: 30px; fill: var(--black); }
+
+    .header-text h1 {
+        font-family: 'Archivo Black', sans-serif;
+        font-size: 1.35rem;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+    }
+
+    .header-text h1 span {
+        background: var(--lime);
+        padding: 0 6px;
+        border: 2px solid var(--black);
+        display: inline-block;
+        transform: rotate(-1deg);
+    }
+
+    .header-text p {
+        margin-top: 6px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: #333;
+    }
+
+    /* ======= FORM ======= */
+    .form-group { margin-bottom: 22px; }
+
+    label {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        font-family: 'Archivo Black', sans-serif;
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+    }
+
+    .label-hint {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.7rem;
+        font-weight: 500;
+        color: #555;
+        text-transform: none;
+        letter-spacing: 0;
+        background: var(--yellow);
+        border: 2px solid var(--black);
+        padding: 1px 8px;
+        border-radius: 999px;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 12px 14px;
+        background: var(--white);
+        border: 3px solid var(--black);
+        border-radius: 4px;
+        font-family: inherit;
+        font-size: 0.92rem;
+        font-weight: 500;
+        color: var(--black);
+        outline: none;
+        transition: transform 0.12s, box-shadow 0.12s;
+        box-shadow: 5px 5px 0 var(--black);
+    }
+
+    input:focus, textarea:focus {
+        background: #FFF9DA;
+        transform: translate(-2px, -2px);
+        box-shadow: 7px 7px 0 var(--pink);
+    }
+
+    input::placeholder, textarea::placeholder {
+        color: #999;
+        font-weight: 400;
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 84px;
+        line-height: 1.5;
+    }
+
+    #token {
+        font-family: 'JetBrains Mono', Consolas, monospace;
+        font-size: 0.76rem;
+        word-break: break-all;
+        line-height: 1.5;
+    }
+
+    /* ======= BOTÓN ======= */
+    button {
+        width: 100%;
+        padding: 16px;
+        margin-top: 10px;
+        background: var(--pink);
+        color: var(--black);
+        border: 3px solid var(--black);
+        border-radius: 4px;
+        font-family: 'Archivo Black', sans-serif;
+        font-size: 0.95rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        box-shadow: 6px 6px 0 var(--black);
+        transition: transform 0.1s, box-shadow 0.1s, background 0.15s;
+    }
+
+    button:hover:not(:disabled) {
+        background: var(--cyan);
+        transform: translate(-2px, -2px);
+        box-shadow: 8px 8px 0 var(--black);
+    }
+
+    button:active:not(:disabled) {
+        transform: translate(4px, 4px);
+        box-shadow: 2px 2px 0 var(--black);
+    }
+
+    button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        box-shadow: 3px 3px 0 var(--black);
+        transform: translate(3px, 3px);
+    }
+
+    /* Spinner */
+    .spinner {
+        width: 18px;
+        height: 18px;
+        border: 3px solid var(--black);
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+        display: none;
+    }
+
+    button.loading .spinner { display: block; }
+    button.loading .btn-text { display: none; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ======= ESTADO ======= */
+    #status {
+        margin-top: 22px;
+        padding: 0;
+        font-family: 'Archivo Black', sans-serif;
+        font-size: 0.85rem;
+        text-align: center;
+        border-radius: 4px;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.25s ease;
+        opacity: 0;
+    }
+
+    #status.show {
+        padding: 14px;
+        max-height: 140px;
+        opacity: 1;
+        border: 3px solid var(--black);
+        box-shadow: 5px 5px 0 var(--black);
+    }
+
+    #status.success { background: var(--lime); }
+    #status.error   { background: var(--red); color: #fff; }
+    #status.info    { background: var(--yellow); }
+
+    /* ======= FOOTER ======= */
+    .footer {
+        margin-top: 28px;
+        padding-top: 16px;
+        border-top: 3px dashed var(--black);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+
+    .dot {
+        width: 10px;
+        height: 10px;
+        background: var(--lime);
+        border: 2px solid var(--black);
+        border-radius: 50%;
+        animation: pulse 1.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50%      { transform: scale(1.35); }
+    }
+
+    /* ======= RESPONSIVE ======= */
+    @media (max-width: 520px) {
+        .card { padding: 30px 20px 22px; box-shadow: 8px 8px 0 var(--black); }
+        .header-text h1 { font-size: 1.1rem; }
+        .card::before { right: 12px; }
+    }
+</style>
+</head>
+<body>
+
+<div class="card">
+    <div class="header">
+        <div class="logo">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22Zm7-5v-1l-1.5-1.5V10a5.5 5.5 0 0 0-4-5.3V4a1.5 1.5 0 0 0-3 0v.7A5.5 5.5 0 0 0 6.5 10v4.5L5 16v1h14Z"/>
+            </svg>
+        </div>
+        <div class="header-text">
+            <h1>Panel de <span>Notificaciones</span></h1>
+            <p>Firebase Cloud Messaging · Envío automatizado</p>
+        </div>
+    </div>
+
+    <form id="pushForm" autocomplete="off">
+        <div class="form-group">
+            <label for="token">
+                Token FCM del dispositivo
+                <span class="label-hint" id="tokenCount">0 caracteres</span>
+            </label>
+<textarea id="token" placeholder="Pega aquí el token FCM del dispositivo..." required></textarea>        </div>
+
+        <div class="form-group">
+            <label for="titulo">Título</label>
+            <input type="text" id="titulo" value="¡Alerta Automatizada!" required maxlength="65">
+        </div>
+
+        <div class="form-group">
+            <label for="mensaje">Mensaje</label>
+            <textarea id="mensaje" required maxlength="240">¡Hola Claudia! Este mensaje salió directo de la página web al servidor y llegó a tu Android.</textarea>
+        </div>
+
+        <button type="submit" id="btnEnviar">
+            <span class="spinner"></span>
+            <span class="btn-text">Enviar Notificación →</span>
+        </button>
+    </form>
+
+    <div id="status"></div>
+
+    <div class="footer">
+        <span class="dot"></span>
+        <span>Servidor conectado</span>
+    </div>
+</div>
+
+<script>
+    const STORAGE_KEY = 'fcm_panel_token';
+    const form = document.getElementById('pushForm');
+    const tokenInput = document.getElementById('token');
+    const tituloInput = document.getElementById('titulo');
+    const mensajeInput = document.getElementById('mensaje');
+    const statusDiv = document.getElementById('status');
+    const btn = document.getElementById('btnEnviar');
+    const tokenCount = document.getElementById('tokenCount');
+
+    // ---- Restaurar token guardado (si existe) ----
+    const savedToken = localStorage.getItem(STORAGE_KEY);
+    if (savedToken && !tokenInput.value.trim()) {
+        tokenInput.value = savedToken;
+    }
+    actualizarContador();
+
+    // ---- Contador de caracteres del token ----
+    tokenInput.addEventListener('input', () => {
+        actualizarContador();
+        localStorage.setItem(STORAGE_KEY, tokenInput.value.trim());
+    });
+
+    function actualizarContador() {
+        const len = tokenInput.value.trim().length;
+        tokenCount.textContent = len + (len === 1 ? ' carácter' : ' caracteres');
+        tokenCount.style.background = len > 100 ? 'var(--lime)' : 'var(--yellow)';
+    }
+
+    // ---- Helpers de estado ----
+    function mostrarEstado(texto, tipo) {
+        statusDiv.className = 'show ' + tipo;
+        statusDiv.textContent = texto;
+    }
+
+    function limpiarEstado() {
+        statusDiv.className = '';
+        statusDiv.textContent = '';
+    }
+
+    // ---- Envío ----
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const token = tokenInput.value.trim();
+        const title = tituloInput.value.trim();
+        const body  = mensajeInput.value.trim();
+
+        if (!token || !title || !body) {
+            mostrarEstado('⚠ COMPLETA TODOS LOS CAMPOS', 'info');
+            return;
+        }
+
+        localStorage.setItem(STORAGE_KEY, token);
+
+        btn.disabled = true;
+        btn.classList.add('loading');
+        limpiarEstado();
+
+        try {
+            // ✅ Ruta relativa: funciona en local y en Render automáticamente
+            const response = await fetch('/send-notification', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token, title, body })
+            });
+
+            let data;
+            try {
+                data = await response.json();
+            } catch {
+                data = {};
+            }
+
+            if (response.ok && data.success) {
+                mostrarEstado('✓ NOTIFICACIÓN ENVIADA · REVISA TU CELULAR', 'success');
+            } else {
+                mostrarEstado('✗ ERROR: ' + (data.error || 'No se pudo procesar la solicitud.'), 'error');
+            }
+        } catch (error) {
+            mostrarEstado('✗ NO SE PUDO CONECTAR CON EL SERVIDOR', 'error');
+            console.error(error);
+        } finally {
+            btn.disabled = false;
+            btn.classList.remove('loading');
+        }
+    });
+</script>
+</body>
+</html>
